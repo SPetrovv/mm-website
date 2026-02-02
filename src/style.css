@@ -1,0 +1,94 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #ff416c, #ff4b2b);
+  color: #fff;
+  min-height: 100vh;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 30px;
+  margin-top: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+h1, h2 {
+  text-align: center;
+}
+
+button {
+  background: #fff;
+  color: #ff416c;
+  border: none;
+  padding: 14px 24px;
+  border-radius: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #ffe3ea;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  margin-top: 10px;
+  font-size: 15px;
+  font-family: inherit;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+nav a {
+  padding: 10px 20px;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+
+nav a:hover,
+nav a.router-link-active {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.button-group {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
