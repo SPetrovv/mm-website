@@ -3,11 +3,13 @@
     <h2>Ask for Advice 💬</h2>
     <div class="card">
       <select v-model="topic">
-        <option disabled value="">Select Topic</option>
-        <option>First Dates</option>
-        <option>Texting</option>
-        <option>Confidence</option>
-        <option>Relationships</option>
+        <option disabled value="">What’s this about?</option>
+        <option>Profile & Photos</option>
+        <option>Messaging & Texting</option>
+        <option>Attraction & Mixed Signals</option>
+        <option>First Dates & Real-Life Dating</option>
+        <option>Confidence & Mindset</option>
+        <option>General Dating Advice / Not Sure</option>
       </select>
       <input 
         v-model="title" 
