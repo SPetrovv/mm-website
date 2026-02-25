@@ -16,6 +16,11 @@
         placeholder="Title" 
         type="text"
       />
+      <input 
+        v-model="email" 
+        placeholder="Email" 
+        type="email"
+      />
       <textarea 
         v-model="message" 
         rows="5" 
@@ -23,7 +28,7 @@
       ></textarea>
       <button 
         @click="sendAdvice" 
-        :disabled="!topic || !title || !message"
+        :disabled="!topic || !title || !message || !email"
       >
         Send
       </button>
@@ -40,35 +45,38 @@ export default {
     return {
       topic: '',
       title: '',
-      message: ''
+      message: '',
+      email: ''
     }
   },
   methods: {
     async sendAdvice() {
-      if (!this.topic || !this.title || !this.message) {
+      if (!this.topic || !this.title || !this.message || !this.email) {
         alert('Please fill in all fields')
         return
       }
 
       const templateParams = {
         topic: this.topic,
-        title: this.title,
+        name: this.title,
+        from_email: this.email,
         message: this.message
       }
 
       try {
         // Replace these with your actual EmailJS credentials
         await emailjs.send(
-          'YOUR_SERVICE_ID',
-          'YOUR_TEMPLATE_ID',
+          'service_a24vegm',
+          'template_a3lcphf',
           templateParams,
-          'YOUR_PUBLIC_KEY'
+          'r6SOky1Achd_vjYEy'
         )
         alert('Advice request sent!')
         // Reset form
         this.topic = ''
         this.title = ''
         this.message = ''
+        this.email = ''
       } catch (error) {
         console.error('Error sending message:', error)
         alert('Error sending message. Please check your EmailJS configuration.')
@@ -78,7 +86,7 @@ export default {
   mounted() {
     // Initialize EmailJS with your public key
     // Replace 'YOUR_PUBLIC_KEY' with your actual EmailJS public key
-    emailjs.init('YOUR_PUBLIC_KEY')
+    emailjs.init('r6SOky1Achd_vjYEy')
   }
 }
 </script>
