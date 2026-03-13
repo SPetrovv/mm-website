@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container form-page">
     <h2>Ask for Advice 💬</h2>
     <div class="card">
       <select v-model="topic">

@@ -23,6 +23,9 @@ a {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  zoom: 1.2;
+  width: calc(100% / 1.2);
+  margin: 0 auto;
 }
 
 /* Top app bar – similar feel to dating apps */
@@ -76,12 +79,13 @@ nav a:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 40px 40px 64px;
+  padding: clamp(1.75rem, 4vw, 2.5rem) clamp(1rem, 4vw, 2.5rem) clamp(2rem, 6vw, 4rem);
 }
 
 .container {
   max-width: 1040px;
   width: 100%;
+  margin-inline: auto;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -94,21 +98,45 @@ nav a:hover {
   overflow: hidden;
   background: rgba(7, 5, 10, 0.78);
   border-radius: 24px;
-  padding: 24px 22px 28px;
+  padding: clamp(1.1rem, 2.5vw, 1.5rem) clamp(1rem, 2.2vw, 1.375rem) clamp(1.25rem, 2.8vw, 1.75rem);
   margin: 0 auto;
   text-align: left;
   width: 100%;
-  max-width: 720px;
+  max-width: min(720px, 94vw);
   box-shadow:
     0 28px 60px rgba(0, 0, 0, 0.55),
     0 0 0 1px rgba(255, 255, 255, 0.03);
 }
 
-.home-card {
+#app > .container.form-page {
+  justify-content: flex-start;
+  padding-top: clamp(2.25rem, 8vh, 4.5rem);
+  overflow: hidden;
+}
+
+body:has(#app > .container.form-page) {
+  overflow: hidden;
+}
+
+.form-page h2 {
+  font-size: clamp(1.3rem, 2.6vw, 1.8rem);
+}
+
+.form-page .card {
+  width: min(100%, 52rem);
+}
+
+.form-page .file-count {
+  margin-top: clamp(0.6rem, 1.5vw, 0.95rem);
+  font-size: clamp(0.85rem, 1.8vw, 1rem);
+}
+
+.home-hero {
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
   gap: 18px;
 }
 
@@ -138,7 +166,7 @@ nav a:hover {
 }
 
 .hero-photo {
-  width: 48%;
+  width: 32%;
   max-width: 220px;
   border-radius: 18px;
   object-fit: cover;
@@ -146,7 +174,8 @@ nav a:hover {
 }
 
 .hero-copy {
-  max-width: 460px;
+  max-width: 360px;
+  margin-top: 32px;
 }
 
 .hero-copy p + p {
@@ -230,15 +259,142 @@ button:disabled {
   width: auto;
 }
 
+.services-section {
+  width: 100%;
+  max-width: 920px;
+  margin-top: 56px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.services-hero {
+  border-radius: 24px;
+  overflow: hidden;
+  padding: 0;
+}
+
+.services-hero-img {
+  width: 100%;
+  border-radius: 24px;
+  object-fit: cover;
+  max-height: 340px;
+  display: block;
+  margin: 0 auto;
+}
+
+.services-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 24px 0;
+}
+
+.services-cards {
+  display: flex;
+  gap: 36px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: -60px;
+}
+
+.service-card {
+  background: linear-gradient(135deg, #ff416c, #ff4b2b);
+  color: #fff;
+  border-radius: 18px;
+  padding: 22px 18px 18px;
+  width: 100%;
+  max-width: 240px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+  position: relative;
+  z-index: 2;
+}
+
+.service-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: #000;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin: -40px auto 16px;
+}
+
+.service-card h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.service-card p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 14px;
+}
+
+.service-more {
+  background: #fff;
+  color: #ff416c;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+  padding: 10px 16px;
+  margin-top: 8px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 999px;
+}
+
+.about-section {
+  width: 100%;
+  max-width: 920px;
+  margin-top: 2.5rem;
+  padding: clamp(1rem, 3vw, 1.8rem);
+  border-radius: 20px;
+  background: rgba(7, 5, 10, 0.72);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.38),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+  text-align: left;
+}
+
+.about-section h3 {
+  font-size: clamp(1.05rem, 2.1vw, 1.35rem);
+  margin-top: 1rem;
+  margin-bottom: 0.6rem;
+}
+
+.about-section p {
+  margin-bottom: 0.8rem;
+}
+
+.about-section ul,
+.about-section ol {
+  margin: 0.2rem 0 1rem 1.25rem;
+}
+
+.about-section li {
+  margin-bottom: 0.45rem;
+}
+
+.about-section li p {
+  margin: 0.5rem 0;
+}
+
+.about-section .about-final {
+  margin-top: 1.2rem;
+  margin-bottom: 0;
+}
+
 input,
 textarea,
 select {
   width: 100%;
-  padding: 11px 12px;
+  padding: clamp(0.62rem, 1.4vw, 0.82rem) clamp(0.68rem, 1.6vw, 0.9rem);
   border-radius: 14px;
   border: 1px solid rgba(255, 255, 255, 0.18);
-  margin-top: 12px;
-  font-size: 14px;
+  margin-top: clamp(0.6rem, 1.4vw, 0.75rem);
+  font-size: clamp(0.85rem, 1.8vw, 0.95rem);
   font-family: inherit;
   background: rgba(12, 8, 18, 0.9);
   color: #fff;

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container form-page">
     <h2>Profile Review 📸</h2>
     <div class="card">
       <p>Upload your photos and we will help you improve your dating profile.</p>
@@ -12,7 +12,7 @@
       <button @click="sendPhotos" :disabled="files.length === 0">
         Send
       </button>
-      <p v-if="files.length > 0" style="margin-top: 15px; font-size: 14px;">
+      <p v-if="files.length > 0" class="file-count">
         {{ files.length }} file(s) selected
       </p>
     </div>
