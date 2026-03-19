@@ -56,6 +56,15 @@ export default {
         return
       }
 
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ASK_ADVICE_ID
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+
+      if (!serviceId || !templateId || !publicKey) {
+        alert('Missing EmailJS configuration.')
+        return
+      }
+
       const templateParams = {
         topic: this.topic,
         name: this.title,
@@ -66,10 +75,10 @@ export default {
       try {
         // Replace these with your actual EmailJS credentials
         await emailjs.send(
-          'service_a24vegm',
-          'template_a3lcphf',
+          serviceId,
+          templateId,
           templateParams,
-          'r6SOky1Achd_vjYEy'
+          publicKey
         )
         alert('Advice request sent!')
         // Reset form
@@ -86,7 +95,8 @@ export default {
   mounted() {
     // Initialize EmailJS with your public key
     // Replace 'YOUR_PUBLIC_KEY' with your actual EmailJS public key
-    emailjs.init('r6SOky1Achd_vjYEy')
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+    if (publicKey) emailjs.init(publicKey)
   }
 }
 </script>
