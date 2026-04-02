@@ -111,11 +111,11 @@ nav a:hover {
 #app > .container.form-page {
   justify-content: flex-start;
   padding-top: clamp(2.25rem, 8vh, 4.5rem);
-  overflow: hidden;
+  overflow: visible;
 }
 
 body:has(#app > .container.form-page) {
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 .form-page h2 {

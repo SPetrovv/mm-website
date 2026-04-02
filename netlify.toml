@@ -1,0 +1,13 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[functions]
+  directory = "netlify/functions"
+
+# Run: npx netlify-cli dev  → open the printed URL (not :5173 alone).
+# Netlify proxies to Vite and serves /.netlify/functions locally.
+[dev]
+  command = "npm run dev"
+  targetPort = 5173
+  port = 8888

@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import ProfileReview from '../views/ProfileReview.vue'
 import AskAdvice from '../views/AskAdvice.vue'
+import StripeSuccess from '../views/StripeSuccess.vue'
+import StripeCancel from '../views/StripeCancel.vue'
 
 const routes = [
   {
@@ -18,6 +20,16 @@ const routes = [
     path: '/ask-advice',
     name: 'AskAdvice',
     component: AskAdvice
+  },
+  {
+    path: '/success',
+    name: 'StripeSuccess',
+    component: StripeSuccess
+  },
+  {
+    path: '/cancel',
+    name: 'StripeCancel',
+    component: StripeCancel
   }
 ]
 

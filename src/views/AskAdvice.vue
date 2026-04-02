@@ -28,16 +28,16 @@
       ></textarea>
       <button 
         @click="sendAdvice" 
-        :disabled="!topic || !title || !message || !email"
+        :disabled="submitting || !topic || !title || !message || !email"
       >
-        Send
+        {{ submitting ? 'Redirecting...' : 'Send' }}
       </button>
     </div>
   </div>
 </template>
 
 <script>
-import emailjs from '@emailjs/browser'
+import { createStripeCheckoutSession } from '../lib/createStripeCheckoutSession'
 
 export default {
   name: 'AskAdvice',
@@ -46,7 +46,8 @@ export default {
       topic: '',
       title: '',
       message: '',
-      email: ''
+      email: '',
+      submitting: false
     }
   },
   methods: {
@@ -56,47 +57,28 @@ export default {
         return
       }
 
-      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID
-      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ASK_ADVICE_ID
-      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-
-      if (!serviceId || !templateId || !publicKey) {
-        alert('Missing EmailJS configuration.')
-        return
-      }
-
-      const templateParams = {
-        topic: this.topic,
-        name: this.title,
-        from_email: this.email,
-        message: this.message
-      }
-
       try {
-        // Replace these with your actual EmailJS credentials
-        await emailjs.send(
-          serviceId,
-          templateId,
-          templateParams,
-          publicKey
-        )
-        alert('Advice request sent!')
-        // Reset form
-        this.topic = ''
-        this.title = ''
-        this.message = ''
-        this.email = ''
+        this.submitting = true
+
+        const pending = {
+          service: 'ask_advice',
+          topic: this.topic,
+          title: this.title,
+          message: this.message,
+          email: this.email
+        }
+
+        localStorage.setItem('mm_stripe_pending', JSON.stringify(pending))
+
+        const data = await createStripeCheckoutSession({ service: 'ask_advice' })
+        window.location.assign(data.url)
       } catch (error) {
-        console.error('Error sending message:', error)
-        alert('Error sending message. Please check your EmailJS configuration.')
+        console.error('Stripe checkout error:', error)
+        localStorage.removeItem('mm_stripe_pending')
+        alert(error?.message || 'Stripe checkout failed. Please try again.')
+        this.submitting = false
       }
     }
   },
-  mounted() {
-    // Initialize EmailJS with your public key
-    // Replace 'YOUR_PUBLIC_KEY' with your actual EmailJS public key
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-    if (publicKey) emailjs.init(publicKey)
-  }
 }
 </script>
