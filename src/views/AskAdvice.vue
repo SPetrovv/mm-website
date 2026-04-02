@@ -20,7 +20,11 @@
         v-model="email" 
         placeholder="Email" 
         type="email"
+        @blur="validateEmail"
       />
+      <p v-if="emailError" class="file-count" style="color: #e74c3c;">
+        {{ emailError }}
+      </p>
       <textarea 
         v-model="message" 
         rows="5" 
@@ -28,7 +32,7 @@
       ></textarea>
       <button 
         @click="sendAdvice" 
-        :disabled="submitting || !topic || !title || !message || !email"
+        :disabled="!topic || !title || !message || !email || !!emailError"
       >
         {{ submitting ? 'Redirecting...' : 'Send' }}
       </button>
@@ -47,11 +51,28 @@ export default {
       title: '',
       message: '',
       email: '',
+      emailError: '',
       submitting: false
     }
   },
   methods: {
+    isValidEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      return re.test(email)
+    },
+    validateEmail() {
+      if (this.email && !this.isValidEmail(this.email)) {
+        this.emailError = 'Please enter a valid email address.'
+      } else {
+        this.emailError = ''
+      }
+    },
     async sendAdvice() {
+      if (!this.isValidEmail(this.email)) {
+        this.emailError = 'Please enter a valid email address.'
+        return
+      }
+
       if (!this.topic || !this.title || !this.message || !this.email) {
         alert('Please fill in all fields')
         return

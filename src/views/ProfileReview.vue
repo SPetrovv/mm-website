@@ -7,13 +7,17 @@
         v-model="email" 
         placeholder="Email" 
         type="email"
+        @blur="validateEmail"
       />
+      <p v-if="emailError" class="file-count" style="color: #e74c3c;">
+        {{ emailError }}
+      </p>
       <input 
         type="file" 
         accept="image/*"
         @change="handleFileChange" 
       />
-      <button @click="sendPhotos" :disabled="!email || files.length === 0 || !!errorMessage || uploading">
+      <button @click="sendPhotos" :disabled="!email || files.length === 0 || !!errorMessage || uploading || !!emailError">
         Send
       </button>
       <p v-if="errorMessage" class="file-count">
@@ -37,12 +41,24 @@ export default {
   data() {
     return {
       email: '',
+      emailError: '',
       files: [],
       errorMessage: '',
       uploading: false
     }
   },
   methods: {
+    isValidEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      return re.test(email)
+    },
+    validateEmail() {
+      if (this.email && !this.isValidEmail(this.email)) {
+        this.emailError = 'Please enter a valid email address.'
+      } else {
+        this.emailError = ''
+      }
+    },
     handleFileChange(event) {
       this.errorMessage = ''
       const selectedFiles = Array.from(event.target.files || [])
@@ -99,8 +115,8 @@ export default {
       return json.secure_url
     },
     async sendPhotos() {
-      if (!this.email) {
-        this.errorMessage = 'Please enter your email.'
+      if (!this.isValidEmail(this.email)) {
+        this.emailError = 'Please enter a valid email address.'
         return
       }
 
