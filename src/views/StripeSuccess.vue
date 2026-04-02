@@ -3,7 +3,7 @@
     <h2>Payment successful</h2>
     <div class="card">
       <p v-if="status === 'loading'">Sending your request...</p>
-      <p v-else-if="status === 'success'">Done. Check your email soon.</p>
+      <p v-else-if="status === 'success'">Done. We will send you an email in a 24 hours.</p>
       <p v-else-if="status === 'error'">Payment completed, but email sending failed.</p>
 
       <p v-if="errorMessage">{{ errorMessage }}</p>
@@ -18,8 +18,6 @@
 </template>
 
 <script>
-import emailjs from '@emailjs/browser'
-
 const STORAGE_KEY = 'mm_stripe_pending'
 
 function getQueryParam(name) {
@@ -59,44 +57,21 @@ export default {
         return
       }
 
-      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID
-      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      if (!serviceId || !publicKey) {
-        this.status = 'error'
-        this.errorMessage = 'Missing EmailJS configuration.'
-        return
-      }
-
-      emailjs.init(publicKey)
-
       const service = pending?.service || getQueryParam('service')
       try {
-        if (service === 'ask_advice') {
-          const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ASK_ADVICE_ID
-          if (!templateId) throw new Error('Missing ask advice EmailJS template.')
-
-          const templateParams = {
-            topic: pending.topic,
-            name: pending.title,
-            from_email: pending.email,
-            message: pending.message
-          }
-
-          await emailjs.send(serviceId, templateId, templateParams, publicKey)
-        } else if (service === 'profile_review') {
-          const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_PROFILE_REVIEW_ID
-          if (!templateId) throw new Error('Missing profile review EmailJS template.')
-
-          const templateParams = {
-            message: `User uploaded ${pending.fileCount} photo(s) for profile review.\nPhoto URL: ${pending.photoUrl}`,
-            from_email: pending.email,
-            file_count: pending.fileCount,
-            image_url: pending.photoUrl
-          }
-
-          await emailjs.send(serviceId, templateId, templateParams, publicKey)
-        } else {
+        if (service !== 'ask_advice' && service !== 'profile_review') {
           throw new Error('Unknown payment service.')
+        }
+
+        const res = await fetch('/.netlify/functions/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ service, payload: pending })
+        })
+
+        if (!res.ok) {
+          const text = await res.text().catch(() => '')
+          throw new Error(text || 'Failed to send email from server.')
         }
 
         localStorage.removeItem(STORAGE_KEY)
