@@ -44,7 +44,7 @@ export const handler = async (event) => {
           price_data: {
             currency: 'eur',
             product_data: { name: service === 'ask_advice' ? 'Ask for Advice' : 'Profile Review' },
-            unit_amount: 55,
+            unit_amount: 950,
           },
           quantity: 1,
         },
