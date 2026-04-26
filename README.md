@@ -2,7 +2,7 @@
 
 A Vue.js 3 single-page application for date coaching services with three main pages:
 - Home page with service options
-- Profile Review (upload photos)
+- AI Photo (upload photos)
 - Ask for Advice
 
 ## Setup
@@ -16,7 +16,7 @@ npm install
    - Sign up at [EmailJS](https://www.emailjs.com/)
    - Get your Public Key, Service ID, and Template ID
    - Replace the placeholders in:
-     - `src/views/ProfileReview.vue`
+    - `src/views/AIPhoto.vue`
      - `src/views/AskAdvice.vue`
    - Replace `YOUR_PUBLIC_KEY`, `YOUR_SERVICE_ID`, and `YOUR_TEMPLATE_ID`
 
@@ -37,7 +37,7 @@ mm-website/
 ├── src/
 │   ├── views/
 │   │   ├── Home.vue
-│   │   ├── ProfileReview.vue
+│   │   ├── AIPhoto.vue
 │   │   └── AskAdvice.vue
 │   ├── router/
 │   │   └── index.js

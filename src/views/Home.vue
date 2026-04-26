@@ -42,12 +42,12 @@
         <div class="services-cards">
           <div class="service-card">
             <div class="service-icon">📸</div>
-            <h3>Profile Review</h3>
+            <h3>AI Photo</h3>
             <p>
               Upload your photos and get honest, practical feedback on how to
               improve your dating profile.
             </p>
-            <router-link to="/profile-review">
+            <router-link to="/ai-photo">
               <button class="service-more">Improve My Profile</button>
             </router-link>
           </div>

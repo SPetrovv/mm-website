@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-import ProfileReview from '../views/ProfileReview.vue'
+import AIPhoto from '../views/AIPhoto.vue'
 import AskAdvice from '../views/AskAdvice.vue'
 import StripeSuccess from '../views/StripeSuccess.vue'
 import StripeCancel from '../views/StripeCancel.vue'
@@ -12,9 +12,9 @@ const routes = [
     component: Home
   },
   {
-    path: '/profile-review',
-    name: 'ProfileReview',
-    component: ProfileReview
+    path: '/ai-photo',
+    name: 'AIPhoto',
+    component: AIPhoto
   },
   {
     path: '/ask-advice',

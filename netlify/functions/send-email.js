@@ -35,11 +35,20 @@ function buildTemplateParams(service, payload) {
   }
 
   if (service === 'profile_review') {
+    const photoUrls = Array.isArray(payload.photoUrls)
+      ? payload.photoUrls.filter(Boolean)
+      : payload.photoUrl
+        ? [payload.photoUrl]
+        : []
+    const primaryPhotoUrl = photoUrls[0] || ''
+    const photoUrlsText = photoUrls.length ? photoUrls.join('\n') : 'No photo URLs provided.'
+
     return {
-      message: `User uploaded ${payload.fileCount} photo(s) for profile review.\nPhoto URL: ${payload.photoUrl}`,
+      message: `User uploaded ${payload.fileCount} photo(s) for profile review.\nPhoto URLs:\n${photoUrlsText}`,
       from_email: payload.email,
       file_count: payload.fileCount,
-      image_url: payload.photoUrl
+      image_url: primaryPhotoUrl,
+      image_urls: photoUrlsText
     }
   }
 

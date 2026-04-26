@@ -4,8 +4,8 @@
     <div class="card">
       <p>Your payment was canceled. You can try again whenever you are ready.</p>
       <div class="button-group">
-        <router-link to="/profile-review">
-          <button>Profile Review</button>
+        <router-link to="/ai-photo">
+          <button>AI Photo</button>
         </router-link>
         <router-link to="/ask-advice">
           <button>Ask for Advice</button>

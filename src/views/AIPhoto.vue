@@ -1,8 +1,11 @@
 <template>
   <div class="container form-page">
-    <h2>Profile Review 📸</h2>
+    <h2>AI Photo Enhancer 📸</h2>
     <div class="card">
       <p>Upload your photos and we will help you improve your dating profile.</p>
+      <p class="file-count">
+        Great idea: send 2 photos - one clear face photo and one full-body photo.
+      </p>
       <input 
         v-model="email" 
         placeholder="Email" 
@@ -15,6 +18,7 @@
       <input 
         type="file" 
         accept="image/*"
+        multiple
         @change="handleFileChange" 
       />
       <button @click="sendPhotos" :disabled="!email || files.length === 0 || !!errorMessage || uploading || !!emailError">
@@ -29,6 +33,9 @@
       <p v-if="files.length > 0" class="file-count">
         {{ files.length }} file(s) selected
       </p>
+      <p class="file-count">
+        Max image size: 10MB per photo.
+      </p>
     </div>
   </div>
 </template>
@@ -37,7 +44,7 @@
 import { createStripeCheckoutSession } from '../lib/createStripeCheckoutSession'
 
 export default {
-  name: 'ProfileReview',
+  name: 'AIPhoto',
   data() {
     return {
       email: '',
@@ -48,6 +55,9 @@ export default {
     }
   },
   methods: {
+    getMaxImageBytes() {
+      return 10 * 1024 * 1024
+    },
     isValidEmail(email) {
       const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       return re.test(email)
@@ -62,22 +72,22 @@ export default {
     handleFileChange(event) {
       this.errorMessage = ''
       const selectedFiles = Array.from(event.target.files || [])
+      const maxBytes = this.getMaxImageBytes()
 
       if (selectedFiles.length === 0) {
         this.files = []
         return
       }
 
-      const file = selectedFiles[0]
-      const maxBytes = 10 * 1024 * 1024
-      if (file.size > maxBytes) {
+      const oversizedFile = selectedFiles.find((file) => file.size > maxBytes)
+      if (oversizedFile) {
         this.files = []
-        this.errorMessage = 'File is too large. Max size is 10MB.'
+        this.errorMessage = `File "${oversizedFile.name}" is too large. Max size is 10MB per image.`
         if (event.target) event.target.value = ''
         return
       }
 
-      this.files = [file]
+      this.files = selectedFiles
     },
     async uploadToCloudinary(file) {
       const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
@@ -125,17 +135,18 @@ export default {
         return
       }
 
-      const maxBytes = 10 * 1024 * 1024
-      if (this.files[0] && this.files[0].size > maxBytes) {
-        this.errorMessage = 'File is too large. Max size is 10MB.'
+      const maxBytes = this.getMaxImageBytes()
+      const oversizedFile = this.files.find((file) => file.size > maxBytes)
+      if (oversizedFile) {
+        this.errorMessage = `File "${oversizedFile.name}" is too large. Max size is 10MB per image.`
         return
       }
 
       this.uploading = true
       this.errorMessage = ''
-      let photoUrl = ''
+      let photoUrls = []
       try {
-        photoUrl = await this.uploadToCloudinary(this.files[0])
+        photoUrls = await Promise.all(this.files.map((file) => this.uploadToCloudinary(file)))
       } catch (e) {
         this.errorMessage = e?.message || 'Failed to upload image.'
         this.uploading = false
@@ -146,7 +157,8 @@ export default {
         const pending = {
           service: 'profile_review',
           email: this.email,
-          photoUrl,
+          photoUrl: photoUrls[0] || '',
+          photoUrls,
           fileCount: this.files.length
         }
 
