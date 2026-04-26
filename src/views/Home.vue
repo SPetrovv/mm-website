@@ -44,11 +44,11 @@
             <div class="service-icon">📸</div>
             <h3>AI Photo</h3>
             <p>
-              Upload your photos and get honest, practical feedback on how to
-              improve your dating profile.
+              Upload your photos and get realistic AI dating images you can use
+              on your profile right away.
             </p>
             <router-link to="/ai-photo">
-              <button class="service-more">Improve My Profile</button>
+              <button class="service-more">Generate My AI Photos</button>
             </router-link>
           </div>
           <div class="service-card">
