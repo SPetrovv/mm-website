@@ -17,6 +17,10 @@ const routes = [
     component: AIPhoto
   },
   {
+    path: '/profile-review',
+    redirect: '/ai-photo'
+  },
+  {
     path: '/ask-advice',
     name: 'AskAdvice',
     component: AskAdvice

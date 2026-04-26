@@ -40,14 +40,13 @@ function buildTemplateParams(service, payload) {
       : payload.photoUrl
         ? [payload.photoUrl]
         : []
-    const primaryPhotoUrl = photoUrls[0] || ''
     const photoUrlsText = photoUrls.length ? photoUrls.join('\n') : 'No photo URLs provided.'
 
     return {
       message: `User uploaded ${payload.fileCount} photo(s) for profile review.\nPhoto URLs:\n${photoUrlsText}`,
       from_email: payload.email,
       file_count: payload.fileCount,
-      image_url: primaryPhotoUrl,
+      image_url: photoUrlsText,
       image_urls: photoUrlsText
     }
   }
